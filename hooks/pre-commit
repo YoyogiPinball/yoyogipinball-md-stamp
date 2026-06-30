@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# pre-commit — stamp every staged Markdown file before the commit is created.
+#
+# Install: copy/symlink this into .git/hooks/pre-commit (chmod +x), or point
+# core.hooksPath at this hooks/ directory. stamp.sh re-stages what it edits.
+#
+# Override the stamp.sh location with MDSTAMP_BIN if you keep it elsewhere.
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+STAMP="${MDSTAMP_BIN:-$DIR/../stamp.sh}"
+[ -x "$STAMP" ] || { echo "stamp.sh not found at $STAMP" >&2; exit 0; }
+
+"$STAMP" --staged
